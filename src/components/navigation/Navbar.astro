@@ -1,0 +1,252 @@
+---
+const navLinks = [
+  { label: "L'Association", href: "/association" },
+  { label: "Les Anciens", href: "/anciens" },
+  { label: "Agenda", href: "/agenda" },
+  { label: "Actualités", href: "/actualites" },
+  { label: "Galeries", href: "/galeries/photos" },
+  { label: "Partenaires", href: "/partenaires" },
+];
+---
+
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="navbar-logo">
+      <img src="/images/logo-carau.png" alt="CARAU" class="navbar-logo-img" />
+      <span class="navbar-logo-text">CARAU</span>
+    </a>
+
+    <nav class="navbar-links" aria-label="Navigation principale">
+      {navLinks.map((link) => (
+        <a href={link.href} class="navbar-link">{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="navbar-actions">
+      <a href="/adherer" class="btn-cta">Adhérer</a>
+      <button
+        class="navbar-burger"
+        id="burger-btn"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu mobile plein écran -->
+  <div class="mobile-menu" id="mobile-menu">
+    <nav aria-label="Navigation mobile">
+      {navLinks.map((link) => (
+        <a href={link.href} class="mobile-menu-link">{link.label}</a>
+      ))}
+      <a href="/adherer" class="btn-cta mobile-menu-cta">Adhérer</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(250, 250, 248, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-base), background-color var(--transition-base);
+  }
+
+  .navbar.is-scrolled {
+    background-color: rgba(250, 250, 248, 0.98);
+    border-bottom-color: var(--color-gray-light);
+  }
+
+  .navbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-2) var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+  }
+
+  .navbar-logo-img {
+  height: 48px;
+  width: auto;
+}
+
+  .navbar-links {
+    display: none;
+    gap: var(--space-3);
+  }
+
+  .navbar-link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-black);
+    padding: 8px 0;
+    position: relative;
+  }
+
+  .navbar-link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-red);
+    transition: width var(--transition-base);
+  }
+
+  .navbar-link:hover::after {
+    width: 100%;
+  }
+
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .btn-cta {
+    background-color: var(--color-red);
+    color: var(--color-white);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-base);
+    white-space: nowrap;
+  }
+
+  .btn-cta:hover {
+    background-color: var(--color-red-dark);
+  }
+
+  /* Burger */
+  .navbar-burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .navbar-burger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-black);
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  .navbar-burger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .navbar-burger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .navbar-burger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Menu mobile plein écran */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    top: 68px;
+    background-color: var(--color-white);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    z-index: 99;
+  }
+
+  .mobile-menu.is-open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4) var(--space-3);
+    gap: var(--space-1);
+  }
+
+  .mobile-menu-link {
+    font-size: 20px;
+    font-weight: 500;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-gray-light);
+  }
+
+  .mobile-menu-cta {
+    margin-top: var(--space-3);
+    text-align: center;
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  /* Desktop */
+  @media (min-width: 900px) {
+    .navbar-links {
+      display: flex;
+    }
+
+    .navbar-burger {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const burgerBtn = document.getElementById('burger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Opacité de la navbar au scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      navbar?.classList.add('is-scrolled');
+    } else {
+      navbar?.classList.remove('is-scrolled');
+    }
+  });
+
+  // Ouverture/fermeture du menu mobile
+  burgerBtn?.addEventListener('click', () => {
+    const isOpen = burgerBtn.getAttribute('aria-expanded') === 'true';
+    burgerBtn.setAttribute('aria-expanded', String(!isOpen));
+    mobileMenu?.classList.toggle('is-open');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  });
+
+  // Fermer le menu si on clique un lien
+  document.querySelectorAll('.mobile-menu-link, .mobile-menu-cta').forEach((link) => {
+    link.addEventListener('click', () => {
+      burgerBtn?.setAttribute('aria-expanded', 'false');
+      mobileMenu?.classList.remove('is-open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

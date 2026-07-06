@@ -1,0 +1,157 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+  { label: "L'Association", href: "/association" },
+  { label: "Les Anciens", href: "/anciens" },
+  { label: "Agenda", href: "/agenda" },
+  { label: "Actualités", href: "/actualites" },
+  { label: "Galeries", href: "/galeries/photos" },
+  { label: "Partenaires", href: "/partenaires" },
+];
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="/images/logo-carau-footer.png" alt="CARAU" class="footer-logo-img" />
+      <p class="footer-brand-name">CARAU</p>
+      <p class="footer-brand-baseline">Cercle des Amis du Rugby Albertville Ugine</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Navigation du pied de page">
+      <p class="footer-heading">Le club</p>
+      {footerLinks.map((link) => (
+        <a href={link.href} class="footer-link">{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="footer-contact">
+      <p class="footer-heading">Nous contacter</p>
+      <a href="/contact" class="footer-link">Formulaire de contact</a>
+      <a href="mailto:contact@carau.fr" class="footer-link">contact@carau.fr</a>
+
+      <p class="footer-heading footer-heading-social">Suivez-nous</p>
+      <div class="footer-social">
+        <a href="#" class="footer-social-link" aria-label="Facebook">Facebook</a>
+        <a href="#" class="footer-social-link" aria-label="Instagram">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {currentYear} CARAU — Tous droits réservés</p>
+    <a href="/mentions-legales" class="footer-legal-link">Mentions légales</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    margin-top: var(--space-12);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .footer-logo-img {
+  height: 160px;
+  width: auto;
+  margin-bottom: var(--space-2);
+}
+  
+
+  .footer-brand-name {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .footer-brand-baseline {
+    font-size: 14px;
+    color: var(--color-gray);
+    margin-top: 4px;
+    max-width: 280px;
+  }
+
+  .footer-heading {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray);
+    margin-bottom: var(--space-2);
+  }
+
+  .footer-heading-social {
+    margin-top: var(--space-3);
+  }
+
+  .footer-nav,
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-link {
+    font-size: 15px;
+    color: var(--color-white);
+    padding: 6px 0;
+    opacity: 0.85;
+    transition: opacity var(--transition-base);
+  }
+
+  .footer-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .footer-social-link {
+    font-size: 14px;
+    color: var(--color-white);
+    opacity: 0.85;
+  }
+
+  .footer-social-link:hover {
+    opacity: 1;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(250, 250, 248, 0.15);
+    padding: var(--space-2) var(--space-3);
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: 13px;
+    color: var(--color-gray);
+  }
+
+  .footer-legal-link {
+    color: var(--color-gray);
+    text-decoration: underline;
+  }
+
+  @media (min-width: 700px) {
+    .footer-inner {
+      grid-template-columns: 1.2fr 1fr 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+</style>

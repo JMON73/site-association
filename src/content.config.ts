@@ -11,6 +11,21 @@ const actualites = defineCollection({
   }),
 });
 
+const evenements = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/evenements' }),
+  schema: z.object({
+    title: z.string(),
+    type: z.enum(['Match', 'Repas', 'Voyage', 'Assemblée générale', 'Action solidaire', 'Autre']),
+    date: z.date(),
+    lieu: z.string().optional(),
+    familles: z.boolean().default(true),
+    image: z.string().optional(),
+    resume: z.string(),
+    lien_inscription: z.string().optional(),
+    termine: z.boolean().default(false),
+  }),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z.object({
@@ -19,4 +34,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { actualites, pages };
+export const collections = { actualites, evenements, pages };

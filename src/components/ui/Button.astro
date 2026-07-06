@@ -1,0 +1,69 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'default' | 'large';
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'default',
+  class: className = '',
+} = Astro.props;
+---
+
+
+<a href={href}
+  class:list={['btn', `btn-${variant}`, `btn-${size}`, className]}
+>
+  <slot />
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+    white-space: nowrap;
+  }
+
+  /* Tailles */
+  .btn-default {
+    font-size: 15px;
+    padding: 12px 24px;
+  }
+
+  .btn-large {
+    font-size: 16px;
+    padding: 16px 32px;
+  }
+
+  /* Variante primaire : rouge plein */
+  .btn-primary {
+    background-color: var(--color-red);
+    color: var(--color-white);
+    border: 1px solid var(--color-red);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-red-dark);
+    border-color: var(--color-red-dark);
+  }
+
+  /* Variante secondaire : contour noir */
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-black);
+    border: 1px solid var(--color-black);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+</style>

@@ -40,7 +40,25 @@ collections:
       - { label: "Résumé", name: "resume", widget: "text" }
       - { label: "Image", name: "image", widget: "image", required: false }
       - { label: "Contenu", name: "body", widget: "markdown" }
-
+  - name: "evenements"
+    label: "Agenda & Événements"
+    folder: "src/content/evenements"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - label: "Type d'événement"
+        name: "type"
+        widget: "select"
+        options: ["Match", "Repas", "Voyage", "Assemblée générale", "Action solidaire", "Autre"]
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Lieu", name: "lieu", widget: "string", required: false }
+      - { label: "Ouvert aux familles", name: "familles", widget: "boolean", default: true }
+      - { label: "Image principale", name: "image", widget: "image", required: false }
+      - { label: "Résumé court", name: "resume", widget: "text" }
+      - { label: "Description complète", name: "body", widget: "markdown" }
+      - { label: "Lien d'inscription", name: "lien_inscription", widget: "string", required: false }
+      - { label: "Événement passé", name: "termine", widget: "boolean", default: false }
   - name: "pages"
     label: "Pages"
     files:
