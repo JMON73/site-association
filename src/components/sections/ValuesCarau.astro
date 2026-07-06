@@ -1,0 +1,109 @@
+---
+const valeurs = [
+  { lettre: "C", mot: "Convivialité" },
+  { lettre: "A", mot: "Amitié" },
+  { lettre: "R", mot: "Respect" },
+  { lettre: "A", mot: "Attachement" },
+  { lettre: "U", mot: "Unité" },
+];
+---
+
+<section class="values">
+  <div class="values-inner">
+    <p class="values-eyebrow">Notre nom, nos valeurs</p>
+
+    <h2 class="values-title">
+      Cercle des Amis du Rugby Albertville Ugine
+    </h2>
+
+    <p class="values-intro">
+      Derrière ces initiales se cachent aussi les valeurs qui nous rassemblent.
+    </p>
+
+    <div class="values-grid">
+      {valeurs.map((v) => (
+        <div class="value-item">
+          <span class="value-letter">{v.lettre}</span>
+          <span class="value-word">{v.mot}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .values {
+    padding: var(--space-8) var(--space-3);
+    background-color: var(--color-white);
+    text-align: center;
+  }
+
+  .values-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .values-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-red);
+    margin-bottom: var(--space-2);
+  }
+
+  .values-title {
+    font-size: 24px;
+    margin-bottom: var(--space-2);
+  }
+
+  .values-intro {
+    font-size: 16px;
+    color: var(--color-gray);
+    max-width: 480px;
+    margin: 0 auto var(--space-6);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4) var(--space-2);
+  }
+
+  .value-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .value-letter {
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--color-red);
+    line-height: 1;
+  }
+
+  .value-word {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-black);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  @media (min-width: 700px) {
+    .values-title {
+      font-size: 32px;
+    }
+
+    .values-grid {
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-3);
+    }
+
+    .value-letter {
+      font-size: 48px;
+    }
+  }
+</style>

@@ -1,10 +1,15 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/sections/Hero.astro';
-
+import NextEvent from '../components/sections/NextEvent.astro';
+import ValuesCarau from '../components/sections/ValuesCarau.astro';
+import HistoryTeaser from '../components/sections/HistoryTeaser.astro';
 ---
 
 <PageLayout title="Accueil">
- <Hero title="Le Cercle des Amis du Rugby Albertville Ugine" subtitle="Convivialité, amitié, respect, attachement, unité." image="/images/hero-placeholder.jpg" />
+  <Hero title="Le Cercle des Amis du Rugby Albertville Ugine" subtitle="Un cercle né de la passion du rugby, qui rassemble anciens joueurs, familles et amis depuis toujours." image="/images/hero-placeholder.jpg" />
 
+  <NextEvent />
+  <ValuesCarau />
+  <HistoryTeaser />
 </PageLayout>

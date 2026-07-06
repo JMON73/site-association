@@ -1,0 +1,117 @@
+---
+import { getCollection } from 'astro:content';
+import Badge from '../ui/Badge.astro';
+import Button from '../ui/Button.astro';
+
+const evenements = await getCollection('evenements');
+
+const aVenir = evenements
+  .filter((e) => !e.data.termine && e.data.date >= new Date())
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const prochain = aVenir[0];
+
+const dateFormatee = prochain
+  ? new Intl.DateTimeFormat('fr-FR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(prochain.data.date)
+  : null;
+---
+
+{prochain && (
+  <section class="next-event">
+    <div class="next-event-inner">
+      <p class="next-event-label">Prochain événement</p>
+
+      <div class="next-event-card">
+        <div class="next-event-info">
+          <Badge variant="accent">{prochain.data.type}</Badge>
+          <h2 class="next-event-title">{prochain.data.title}</h2>
+          <p class="next-event-date">{dateFormatee}</p>
+          {prochain.data.lieu && <p class="next-event-lieu">{prochain.data.lieu}</p>}
+          <p class="next-event-resume">{prochain.data.resume}</p>
+        </div>
+
+        <div class="next-event-actions">
+          <Button href={`/agenda/${prochain.id}`}>En savoir plus</Button>
+          <Button href="/agenda" variant="secondary">Voir tout l'agenda</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .next-event {
+    padding: var(--space-8) var(--space-3);
+    background-color: var(--color-white);
+  }
+
+  .next-event-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .next-event-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray);
+    margin-bottom: var(--space-2);
+  }
+
+  .next-event-card {
+    background-color: var(--color-gray-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .next-event-title {
+    margin-top: var(--space-1);
+    font-size: 24px;
+  }
+
+  .next-event-date {
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 4px;
+    text-transform: capitalize;
+  }
+
+  .next-event-lieu {
+    font-size: 14px;
+    color: var(--color-gray);
+    margin-top: 2px;
+  }
+
+  .next-event-resume {
+    font-size: 15px;
+    margin-top: var(--space-2);
+  }
+
+  .next-event-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  @media (min-width: 700px) {
+    .next-event-card {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .next-event-actions {
+      flex-direction: row;
+      flex-shrink: 0;
+    }
+  }
+</style>

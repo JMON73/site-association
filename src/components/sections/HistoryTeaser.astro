@@ -1,0 +1,97 @@
+---
+import Button from '../ui/Button.astro';
+
+interface Props {
+  image?: string;
+}
+
+const { image = "/images/histoire-placeholder.jpg" } = Astro.props;
+---
+
+<section class="history-teaser">
+  <div class="history-teaser-inner">
+    <div class="history-teaser-image-wrap">
+      <img src={image} alt="Photo d'archive du club" class="history-teaser-image" />
+    </div>
+
+    <div class="history-teaser-content">
+      <p class="history-teaser-eyebrow">Notre histoire</p>
+      <h2 class="history-teaser-title">Trois clubs, une seule histoire</h2>
+      <p class="history-teaser-text">
+        Le CARAU est né de la rencontre entre l'ASU, l'UOA et le SOUA — trois clubs qui,
+        au fil des décennies, ont porté les mêmes valeurs sur les terrains d'Albertville
+        et d'Ugine. Aujourd'hui, cette mémoire commune continue de rassembler celles et
+        ceux qui ont porté le maillot.
+      </p>
+      <Button href="/association/histoire" variant="secondary">Découvrir notre histoire</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .history-teaser {
+    padding: var(--space-8) var(--space-3);
+    background-color: var(--color-white);
+  }
+
+  .history-teaser-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .history-teaser-image-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .history-teaser-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+  }
+
+  .history-teaser-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-red);
+    margin-bottom: var(--space-1);
+  }
+
+  .history-teaser-title {
+    font-size: 24px;
+    margin-bottom: var(--space-2);
+  }
+
+  .history-teaser-text {
+    font-size: 16px;
+    color: var(--color-black);
+    margin-bottom: var(--space-3);
+    max-width: 560px;
+  }
+
+  @media (min-width: 900px) {
+    .history-teaser-inner {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .history-teaser-image-wrap,
+    .history-teaser-content {
+      flex: 1;
+    }
+
+    .history-teaser-image {
+      height: 380px;
+    }
+
+    .history-teaser-title {
+      font-size: 32px;
+    }
+  }
+</style>
