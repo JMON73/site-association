@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import Button from '../ui/Button.astro';
+
+const albums = await getCollection('galeries');
+
+// On aplatit toutes les photos de tous les albums en une seule liste,
+// triée par date d'album la plus récente, limitée à 8 photos pour l'aperçu
+const toutesLesPhotos = albums
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .flatMap((album) => album.data.photos)
+  .slice(0, 8);
+---
+
+{toutesLesPhotos.length > 0 && (
+  <section class="gallery-preview">
+    <div class="gallery-preview-inner">
+      <p class="gallery-preview-eyebrow">Galerie</p>
+      <h2 class="gallery-preview-title">Nos meilleurs moments</h2>
+
+      <div class="gallery-preview-grid">
+        {toutesLesPhotos.map((photo) => (
+          <div class="gallery-preview-item">
+            <img src={photo} alt="" class="gallery-preview-img" loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      <div class="gallery-preview-cta">
+        <Button href="/galeries/photos" variant="secondary">Voir toute la galerie</Button>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .gallery-preview {
+    padding: var(--space-8) var(--space-3);
+    background-color: var(--color-white);
+  }
+
+  .gallery-preview-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .gallery-preview-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-red);
+    margin-bottom: var(--space-1);
+  }
+
+  .gallery-preview-title {
+    font-size: 24px;
+    margin-bottom: var(--space-4);
+  }
+
+  .gallery-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .gallery-preview-item {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .gallery-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-base);
+  }
+
+  .gallery-preview-item:hover .gallery-preview-img {
+    transform: scale(1.05);
+  }
+
+  .gallery-preview-cta {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (min-width: 700px) {
+    .gallery-preview-title {
+      font-size: 32px;
+    }
+
+    .gallery-preview-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+    }
+  }
+</style>

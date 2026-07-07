@@ -26,6 +26,33 @@ const evenements = defineCollection({
   }),
 });
 
+const anciens = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/anciens' }),
+  schema: z.object({
+    nom: z.string(),
+    photo: z.string().optional(),
+    periode: z.string(),
+    poste: z.string().optional(),
+  }),
+});
+
+const galeries = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/galeries' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    photos: z.array(z.string()),
+  }),
+});
+const partenaires = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/partenaires' }),
+  schema: z.object({
+    nom: z.string(),
+    logo: z.string(),
+    site: z.string().optional(),
+    niveau: z.enum(['Principal', 'Secondaire']),
+  }),
+});
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z.object({
@@ -34,4 +61,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { actualites, evenements, pages };
+export const collections = { actualites, evenements, anciens, galeries, partenaires, pages };

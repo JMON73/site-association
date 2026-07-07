@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+
+const tousLesPartenaires = await getCollection('partenaires');
+const principaux = tousLesPartenaires.filter((p) => p.data.niveau === 'Principal');
+const secondaires = tousLesPartenaires.filter((p) => p.data.niveau === 'Secondaire');
+---
+
+{tousLesPartenaires.length > 0 && (
+  <section class="partners">
+    <div class="partners-inner">
+      <p class="partners-eyebrow">Ils nous soutiennent</p>
+      <h2 class="partners-title">Nos partenaires</h2>
+
+      {principaux.length > 0 && (
+        <div class="partners-row partners-row-principal">
+          {principaux.map((p) => (
+            <a href={p.data.site || '#'} class="partner-logo-wrap partner-logo-principal" target={p.data.site ? '_blank' : undefined} rel="noopener noreferrer">
+              <img src={p.data.logo} alt={p.data.nom} class="partner-logo" />
+            </a>
+          ))}
+        </div>
+      )}
+
+      {secondaires.length > 0 && (
+        <div class="partners-row partners-row-secondaire">
+          {secondaires.map((p) => (
+            <a href={p.data.site || '#'} class="partner-logo-wrap partner-logo-secondaire" target={p.data.site ? '_blank' : undefined} rel="noopener noreferrer">
+              <img src={p.data.logo} alt={p.data.nom} class="partner-logo" />
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .partners {
+    padding: var(--space-8) var(--space-3);
+    background-color: var(--color-white);
+    text-align: center;
+  }
+
+  .partners-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .partners-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-red);
+    margin-bottom: var(--space-1);
+  }
+
+  .partners-title {
+    font-size: 24px;
+    margin-bottom: var(--space-5);
+  }
+
+  .partners-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+
+  .partners-row-secondaire {
+    margin-top: var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .partner-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: filter var(--transition-base), opacity var(--transition-base);
+  }
+
+  .partner-logo-wrap:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  .partner-logo {
+    width: auto;
+  }
+
+  .partner-logo-principal .partner-logo,
+  .partner-logo-principal {
+    height: 64px;
+  }
+
+  .partner-logo-secondaire .partner-logo,
+  .partner-logo-secondaire {
+    height: 40px;
+  }
+
+  @media (min-width: 700px) {
+    .partners-title {
+      font-size: 32px;
+    }
+  }
+</style>

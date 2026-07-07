@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import AlumniCard from '../cards/AlumniCard.astro';
+import Button from '../ui/Button.astro';
+
+const tousLesAnciens = await getCollection('anciens');
+const selection = tousLesAnciens.slice(0, 6);
+---
+
+<section class="alumni-teaser">
+  <div class="alumni-teaser-inner">
+    <p class="alumni-teaser-eyebrow">Les Anciens</p>
+    <h2 class="alumni-teaser-title">Ceux qui ont porté nos couleurs</h2>
+
+    <div class="alumni-teaser-grid">
+      {selection.map((ancien) => (
+        <AlumniCard
+          nom={ancien.data.nom}
+          photo={ancien.data.photo}
+          periode={ancien.data.periode}
+          poste={ancien.data.poste}
+        />
+      ))}
+    </div>
+
+    <div class="alumni-teaser-cta">
+      <Button href="/anciens" variant="secondary">Voir tous les anciens</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .alumni-teaser {
+    padding: var(--space-8) var(--space-3);
+    background-color: var(--color-white);
+  }
+
+  .alumni-teaser-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .alumni-teaser-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-red);
+    margin-bottom: var(--space-1);
+  }
+
+  .alumni-teaser-title {
+    font-size: 24px;
+    margin-bottom: var(--space-4);
+  }
+
+  .alumni-teaser-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    text-align: left;
+  }
+
+  .alumni-teaser-cta {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (min-width: 700px) {
+    .alumni-teaser-title {
+      font-size: 32px;
+    }
+
+    .alumni-teaser-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+  }
+</style>

@@ -59,6 +59,42 @@ collections:
       - { label: "Description complète", name: "body", widget: "markdown" }
       - { label: "Lien d'inscription", name: "lien_inscription", widget: "string", required: false }
       - { label: "Événement passé", name: "termine", widget: "boolean", default: false }
+  - name: "anciens"
+    label: "Les Anciens"
+    folder: "src/content/anciens"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nom complet", name: "nom", widget: "string" }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - { label: "Période au club", name: "periode", widget: "string" }
+      - { label: "Poste", name: "poste", widget: "string", required: false }
+      - { label: "Témoignage", name: "body", widget: "markdown", required: false }
+  - name: "galeries"
+    label: "Galeries photos"
+    folder: "src/content/galeries"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre de l'album", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - label: "Photos"
+        name: "photos"
+        widget: "list"
+        field: { label: "Photo", name: "image", widget: "image" }
+  - name: "partenaires"
+    label: "Partenaires"
+    folder: "src/content/partenaires"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nom du partenaire", name: "nom", widget: "string" }
+      - { label: "Logo", name: "logo", widget: "image" }
+      - { label: "Site web", name: "site", widget: "string", required: false }
+      - label: "Niveau de partenariat"
+        name: "niveau"
+        widget: "select"
+        options: ["Principal", "Secondaire"]
   - name: "pages"
     label: "Pages"
     files:
