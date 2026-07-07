@@ -1,0 +1,145 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import AlumniCard from '../../components/cards/AlumniCard.astro';
+import { getCollection } from 'astro:content';
+
+const tousLesAnciens = await getCollection('anciens');
+const tries = tousLesAnciens.sort((a, b) => a.data.nom.localeCompare(b.data.nom));
+---
+
+<PageLayout title="Les Anciens" description="Retrouvez tous les anciens joueurs du CARAU, leur période au club et leur poste.">
+  <section class="alumni-header">
+    <div class="alumni-header-inner">
+      <h1>Les Anciens</h1>
+      <p class="alumni-intro">Ceux qui ont porté nos couleurs, saison après saison.</p>
+    </div>
+  </section>
+
+  <section class="alumni-content">
+    <div class="alumni-content-inner">
+
+      <div class="alumni-search-wrap">
+        <input
+          type="search"
+          id="alumni-search"
+          class="alumni-search"
+          placeholder="Rechercher un nom..."
+          aria-label="Rechercher un ancien joueur"
+        />
+      </div>
+
+      {tries.length > 0 ? (
+        <div class="alumni-grid" id="alumni-grid">
+          {tries.map((ancien) => (
+            <div class="alumni-grid-item" data-nom={ancien.data.nom.toLowerCase()}>
+              <AlumniCard
+                nom={ancien.data.nom}
+                photo={ancien.data.photo}
+                periode={ancien.data.periode}
+                poste={ancien.data.poste}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="alumni-empty">Aucun ancien joueur référencé pour le moment.</p>
+      )}
+
+      <p class="alumni-no-result" id="alumni-no-result" hidden>Aucun résultat pour cette recherche.</p>
+
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .alumni-header {
+    background-color: var(--color-black);
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    text-align: center;
+  }
+
+  .alumni-header-inner h1 {
+    color: var(--color-white);
+    font-size: 32px;
+  }
+
+  .alumni-intro {
+    color: var(--color-gray);
+    margin-top: var(--space-1);
+  }
+
+  .alumni-content {
+    padding: var(--space-6) var(--space-3) var(--space-8);
+  }
+
+  .alumni-content-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .alumni-search-wrap {
+    margin-bottom: var(--space-4);
+  }
+
+  .alumni-search {
+    width: 100%;
+    max-width: 360px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    padding: 12px 16px;
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+  }
+
+  .alumni-search:focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 2px;
+  }
+
+  .alumni-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .alumni-empty,
+  .alumni-no-result {
+    color: var(--color-gray);
+  }
+
+  @media (min-width: 700px) {
+    .alumni-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .alumni-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const searchInput = document.getElementById('alumni-search') as HTMLInputElement;
+  const gridItems = document.querySelectorAll<HTMLElement>('.alumni-grid-item');
+  const noResult = document.getElementById('alumni-no-result');
+
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    gridItems.forEach((item) => {
+      const nom = item.getAttribute('data-nom') || '';
+      const match = nom.includes(query);
+      item.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
+    });
+
+    if (noResult) {
+      noResult.hidden = visibleCount > 0;
+    }
+  });
+</script>

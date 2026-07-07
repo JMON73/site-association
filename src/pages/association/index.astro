@@ -1,0 +1,202 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Timeline from '../../components/timeline/Timeline.astro';
+import BoardMemberCard from '../../components/cards/BoardMemberCard.astro';
+import { getCollection } from 'astro:content';
+
+const etapesHistoire = (await getCollection('histoire')).sort((a, b) => a.data.ordre - b.data.ordre);
+const membresBureau = (await getCollection('bureau')).sort((a, b) => a.data.ordre - b.data.ordre);
+
+const valeurs = [
+  { lettre: "C", mot: "Convivialité" },
+  { lettre: "A", mot: "Amitié" },
+  { lettre: "R", mot: "Respect" },
+  { lettre: "A", mot: "Attachement" },
+  { lettre: "U", mot: "Unité" },
+];
+---
+
+<PageLayout title="L'Association" description="Découvrez l'histoire, les valeurs et le bureau du CARAU.">
+  <section class="assoc-header">
+    <div class="assoc-header-inner">
+      <h1>L'Association</h1>
+      <p class="assoc-intro">Cercle des Amis du Rugby Albertville Ugine</p>
+    </div>
+  </section>
+
+  <nav class="assoc-anchors" aria-label="Navigation dans la page">
+    <a href="#histoire">Notre histoire</a>
+    <a href="#valeurs">Nos valeurs</a>
+    <a href="#bureau">Le bureau</a>
+  </nav>
+
+  <section class="assoc-section" id="histoire">
+    <div class="assoc-section-inner">
+      <p class="assoc-eyebrow">Notre histoire</p>
+      <h2 class="assoc-title">Trois clubs, une seule histoire</h2>
+      {etapesHistoire.length > 0 ? (
+        <Timeline etapes={etapesHistoire} />
+      ) : (
+        <p class="assoc-empty">L'histoire du club sera bientôt disponible ici.</p>
+      )}
+    </div>
+  </section>
+
+  <section class="assoc-section assoc-section-alt" id="valeurs">
+    <div class="assoc-section-inner assoc-section-inner-center">
+      <p class="assoc-eyebrow">Nos valeurs</p>
+      <h2 class="assoc-title">Ce que porte notre nom</h2>
+      <div class="assoc-values-grid">
+        {valeurs.map((v) => (
+          <div class="assoc-value-item">
+            <span class="assoc-value-letter">{v.lettre}</span>
+            <span class="assoc-value-word">{v.mot}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="assoc-section" id="bureau">
+    <div class="assoc-section-inner assoc-section-inner-center">
+      <p class="assoc-eyebrow">Le bureau</p>
+      <h2 class="assoc-title">Ceux qui font vivre le club</h2>
+      {membresBureau.length > 0 ? (
+        <div class="assoc-board-grid">
+          {membresBureau.map((membre) => (
+            <BoardMemberCard nom={membre.data.nom} fonction={membre.data.fonction} photo={membre.data.photo} />
+          ))}
+        </div>
+      ) : (
+        <p class="assoc-empty">La composition du bureau sera bientôt disponible ici.</p>
+      )}
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .assoc-header {
+    background-color: var(--color-black);
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    text-align: center;
+  }
+
+  .assoc-header-inner h1 {
+    color: var(--color-white);
+    font-size: 32px;
+  }
+
+  .assoc-intro {
+    color: var(--color-gray);
+    margin-top: var(--space-1);
+  }
+
+  .assoc-anchors {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-gray-light);
+    position: sticky;
+    top: 68px;
+    background-color: var(--color-white);
+    z-index: 10;
+    overflow-x: auto;
+  }
+
+  .assoc-anchors a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-black);
+    white-space: nowrap;
+  }
+
+  .assoc-anchors a:hover {
+    color: var(--color-red);
+  }
+
+  .assoc-section {
+    padding: var(--space-8) var(--space-3);
+  }
+
+  .assoc-section-alt {
+    background-color: var(--color-gray-light);
+  }
+
+  .assoc-section-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .assoc-section-inner-center {
+    text-align: center;
+  }
+
+  .assoc-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-red);
+    margin-bottom: var(--space-1);
+  }
+
+  .assoc-title {
+    font-size: 24px;
+    margin-bottom: var(--space-4);
+  }
+
+  .assoc-empty {
+    color: var(--color-gray);
+  }
+
+  .assoc-values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4) var(--space-2);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .assoc-value-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .assoc-value-letter {
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--color-red);
+    line-height: 1;
+  }
+
+  .assoc-value-word {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .assoc-board-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 700px) {
+    .assoc-title {
+      font-size: 32px;
+    }
+
+    .assoc-values-grid {
+      grid-template-columns: repeat(5, 1fr);
+      max-width: none;
+    }
+
+    .assoc-board-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

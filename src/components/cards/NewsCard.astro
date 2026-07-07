@@ -1,0 +1,96 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  date: Date;
+  resume: string;
+  image?: string;
+}
+
+const { slug, title, date, resume, image } = Astro.props;
+
+const dateFormatee = new Intl.DateTimeFormat('fr-FR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(date);
+---
+
+<a href={`/actualites/${slug}`} class="news-card">
+  <div class="news-card-image-wrap">
+    {image ? (
+      <img src={image} alt="" class="news-card-image" loading="lazy" />
+    ) : (
+      <div class="news-card-placeholder" aria-hidden="true">CARAU</div>
+    )}
+  </div>
+
+  <div class="news-card-content">
+    <p class="news-card-date">{dateFormatee}</p>
+    <h3 class="news-card-title">{title}</h3>
+    <p class="news-card-resume">{resume}</p>
+  </div>
+</a>
+
+<style>
+  .news-card {
+    display: block;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-light);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .news-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .news-card-image-wrap {
+    aspect-ratio: 16 / 10;
+    background-color: var(--color-gray-light);
+  }
+
+  .news-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .news-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-gray);
+    letter-spacing: 0.05em;
+  }
+
+  .news-card-content {
+    padding: var(--space-3);
+  }
+
+  .news-card-date {
+    font-size: 13px;
+    color: var(--color-gray);
+  }
+
+  .news-card-title {
+    font-size: 18px;
+    margin-top: 6px;
+  }
+
+  .news-card-resume {
+    font-size: 14px;
+    color: var(--color-black);
+    margin-top: var(--space-1);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

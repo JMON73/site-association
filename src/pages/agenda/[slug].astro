@@ -1,0 +1,144 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Button from '../../components/ui/Button.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const evenements = await getCollection('evenements');
+  return evenements.map((e) => ({
+    params: { slug: e.id },
+    props: { evenement: e },
+  }));
+}
+
+const { evenement } = Astro.props;
+const { Content } = await render(evenement);
+
+const dateFormatee = new Intl.DateTimeFormat('fr-FR', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(evenement.data.date);
+---
+
+<PageLayout title={evenement.data.title} description={evenement.data.resume}>
+  <article class="event-detail">
+    <div class="event-detail-header">
+      {evenement.data.image ? (
+        <img src={evenement.data.image} alt="" class="event-detail-image" />
+      ) : (
+        <div class="event-detail-placeholder" aria-hidden="true">{evenement.data.type}</div>
+      )}
+    </div>
+
+    <div class="event-detail-inner">
+      <Badge variant="accent">{evenement.data.type}</Badge>
+      <h1 class="event-detail-title">{evenement.data.title}</h1>
+
+      <div class="event-detail-meta">
+        <p class="event-detail-date">{dateFormatee}</p>
+        {evenement.data.lieu && <p class="event-detail-lieu">{evenement.data.lieu}</p>}
+        {evenement.data.familles && <p class="event-detail-familles">Ouvert aux familles</p>}
+      </div>
+
+      <div class="event-detail-body">
+        <Content />
+      </div>
+
+      {evenement.data.lien_inscription && (
+        <div class="event-detail-cta">
+          <Button href={evenement.data.lien_inscription} size="large">S'inscrire</Button>
+        </div>
+      )}
+
+      <a href="/agenda" class="event-detail-back">&larr; Retour à l'agenda</a>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .event-detail-header {
+    width: 100%;
+    height: 320px;
+    background-color: var(--color-gray-light);
+  }
+
+  .event-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .event-detail-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .event-detail-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-3);
+  }
+
+  .event-detail-title {
+    font-size: 32px;
+    margin-top: var(--space-2);
+  }
+
+  .event-detail-meta {
+    margin-top: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-gray-light);
+  }
+
+  .event-detail-date {
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .event-detail-lieu {
+    font-size: 15px;
+    color: var(--color-gray);
+    margin-top: 4px;
+  }
+
+  .event-detail-familles {
+    font-size: 14px;
+    color: var(--color-red);
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  .event-detail-body {
+    margin-top: var(--space-4);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .event-detail-cta {
+    margin-top: var(--space-4);
+  }
+
+  .event-detail-back {
+    display: inline-block;
+    margin-top: var(--space-5);
+    font-size: 14px;
+    color: var(--color-gray);
+  }
+
+  @media (min-width: 700px) {
+    .event-detail-title {
+      font-size: 40px;
+    }
+  }
+</style>

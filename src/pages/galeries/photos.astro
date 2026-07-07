@@ -1,0 +1,252 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const albums = await getCollection('galeries');
+const triees = albums.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Liste globale à plat, avec l'index de chaque photo pour la navigation lightbox
+let indexGlobal = 0;
+const albumsAvecIndex = triees.map((album) => {
+  const photosAvecIndex = album.data.photos.map((photo) => {
+    const item = { src: photo, index: indexGlobal };
+    indexGlobal++;
+    return item;
+  });
+  return { ...album, photosAvecIndex };
+});
+
+const toutesLesPhotos = albumsAvecIndex.flatMap((a) => a.photosAvecIndex.map((p) => p.src));
+---
+
+<PageLayout title="Galerie photos" description="Toutes les photos du CARAU, événement par événement.">
+  <section class="gallery-header">
+    <div class="gallery-header-inner">
+      <h1>Galerie photos</h1>
+      <p class="gallery-intro">Les meilleurs moments du club, en images.</p>
+    </div>
+  </section>
+
+  <section class="gallery-content">
+    <div class="gallery-content-inner">
+      {albumsAvecIndex.length > 0 ? (
+        albumsAvecIndex.map((album) => (
+          <div class="gallery-album">
+            <h2 class="gallery-album-title">{album.data.title}</h2>
+            <div class="gallery-grid">
+              {album.photosAvecIndex.map((photo) => (
+                <button
+                  class="gallery-thumb"
+                  data-index={photo.index}
+                  aria-label={`Voir la photo en grand : ${album.data.title}`}
+                >
+                  <img src={photo.src} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
+        ))
+      ) : (
+        <p class="gallery-empty">Aucune photo pour le moment.</p>
+      )}
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Fermer">&times;</button>
+    <button class="lightbox-prev" id="lightbox-prev" aria-label="Photo précédente">&larr;</button>
+    <img src="" alt="" class="lightbox-image" id="lightbox-image" />
+    <button class="lightbox-next" id="lightbox-next" aria-label="Photo suivante">&rarr;</button>
+    <p class="lightbox-counter" id="lightbox-counter"></p>
+  </div>
+</PageLayout>
+
+<style>
+  .gallery-header {
+    background-color: var(--color-black);
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    text-align: center;
+  }
+
+  .gallery-header-inner h1 {
+    color: var(--color-white);
+    font-size: 32px;
+  }
+
+  .gallery-intro {
+    color: var(--color-gray);
+    margin-top: var(--space-1);
+  }
+
+  .gallery-content {
+    padding: var(--space-6) var(--space-3) var(--space-8);
+  }
+
+  .gallery-content-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .gallery-album {
+    margin-bottom: var(--space-6);
+  }
+
+  .gallery-album-title {
+    font-size: 20px;
+    margin-bottom: var(--space-3);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .gallery-thumb {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-base);
+  }
+
+  .gallery-thumb:hover img {
+    transform: scale(1.05);
+  }
+
+  .gallery-empty {
+    color: var(--color-gray);
+  }
+
+  /* Lightbox */
+  .lightbox {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 20, 20, 0.95);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox:not([hidden]) {
+  display: flex;
+}
+
+  .lightbox-image {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .lightbox-close,
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 28px;
+    cursor: pointer;
+    padding: var(--space-2);
+  }
+
+  .lightbox-close {
+    top: var(--space-2);
+    right: var(--space-2);
+  }
+
+  .lightbox-prev {
+    left: var(--space-1);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox-next {
+    right: var(--space-1);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox-counter {
+    position: absolute;
+    bottom: var(--space-2);
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-white);
+    font-size: 14px;
+  }
+
+  @media (min-width: 700px) {
+    .gallery-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-2);
+    }
+  }
+</style>
+
+<script define:vars={{ toutesLesPhotos }}>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  const closeBtn = document.getElementById('lightbox-close');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+  const thumbs = document.querySelectorAll('.gallery-thumb');
+
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    updateLightbox();
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateLightbox() {
+    lightboxImage.src = toutesLesPhotos[currentIndex];
+    lightboxCounter.textContent = `${currentIndex + 1} / ${toutesLesPhotos.length}`;
+  }
+
+  function closeLightbox() {
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + toutesLesPhotos.length) % toutesLesPhotos.length;
+    updateLightbox();
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % toutesLesPhotos.length;
+    updateLightbox();
+  }
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      const index = parseInt(thumb.getAttribute('data-index'), 10);
+      openLightbox(index);
+    });
+  });
+
+  closeBtn?.addEventListener('click', closeLightbox);
+  prevBtn?.addEventListener('click', showPrev);
+  nextBtn?.addEventListener('click', showNext);
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+</script>

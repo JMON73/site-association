@@ -1,0 +1,195 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const tousLesPartenaires = await getCollection('partenaires');
+const principaux = tousLesPartenaires.filter((p) => p.data.niveau === 'Principal');
+const secondaires = tousLesPartenaires.filter((p) => p.data.niveau === 'Secondaire');
+---
+
+<PageLayout title="Partenaires" description="Découvrez les partenaires qui soutiennent le CARAU.">
+  <section class="partners-page-header">
+    <div class="partners-page-header-inner">
+      <h1>Partenaires</h1>
+      <p class="partners-page-intro">
+        Ils accompagnent le club et contribuent à faire vivre nos événements et nos actions.
+        Un grand merci à eux.
+      </p>
+    </div>
+  </section>
+
+  <section class="partners-page-content">
+    <div class="partners-page-content-inner">
+
+      {principaux.length > 0 && (
+        <div class="partners-page-group">
+          <h2 class="partners-page-group-title">Partenaires principaux</h2>
+          <div class="partners-page-grid partners-page-grid-principal">
+            {principaux.map((p) => (
+              <a
+                href={p.data.site || '#'}
+                class="partner-page-card partner-page-card-principal"
+                target={p.data.site ? '_blank' : undefined}
+                rel="noopener noreferrer"
+              >
+                <img src={p.data.logo} alt={p.data.nom} class="partner-page-logo" />
+                <p class="partner-page-nom">{p.data.nom}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {secondaires.length > 0 && (
+        <div class="partners-page-group">
+          <h2 class="partners-page-group-title">Partenaires</h2>
+          <div class="partners-page-grid partners-page-grid-secondaire">
+            {secondaires.map((p) => (
+              <a
+                href={p.data.site || '#'}
+                class="partner-page-card partner-page-card-secondaire"
+                target={p.data.site ? '_blank' : undefined}
+                rel="noopener noreferrer"
+              >
+                <img src={p.data.logo} alt={p.data.nom} class="partner-page-logo" />
+                <p class="partner-page-nom">{p.data.nom}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {tousLesPartenaires.length === 0 && (
+        <p class="partners-page-empty">Aucun partenaire référencé pour le moment.</p>
+      )}
+
+      <div class="partners-page-cta">
+        <h2 class="partners-page-cta-title">Devenir partenaire</h2>
+        <p class="partners-page-cta-text">
+          Vous souhaitez soutenir le CARAU et vous associer à nos valeurs ? Contactez-nous.
+        </p>
+        <a href="/contact" class="partners-page-cta-link">Nous contacter &rarr;</a>
+      </div>
+
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .partners-page-header {
+    background-color: var(--color-black);
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    text-align: center;
+  }
+
+  .partners-page-header-inner h1 {
+    color: var(--color-white);
+    font-size: 32px;
+  }
+
+  .partners-page-intro {
+    color: var(--color-gray);
+    margin-top: var(--space-2);
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .partners-page-content {
+    padding: var(--space-8) var(--space-3);
+  }
+
+  .partners-page-content-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .partners-page-group {
+    margin-bottom: var(--space-8);
+  }
+
+  .partners-page-group-title {
+    font-size: 20px;
+    margin-bottom: var(--space-4);
+    text-align: center;
+  }
+
+  .partners-page-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .partner-page-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--radius-lg);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .partner-page-card:hover {
+    box-shadow: var(--shadow-subtle);
+    transform: translateY(-2px);
+  }
+
+  .partner-page-card-principal .partner-page-logo {
+    height: 72px;
+  }
+
+  .partner-page-card-secondaire .partner-page-logo {
+    height: 48px;
+  }
+
+  .partner-page-logo {
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .partner-page-nom {
+    font-size: 14px;
+    color: var(--color-gray);
+    text-align: center;
+  }
+
+  .partners-page-empty {
+    color: var(--color-gray);
+    text-align: center;
+  }
+
+  .partners-page-cta {
+    text-align: center;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-gray-light);
+  }
+
+  .partners-page-cta-title {
+    font-size: 20px;
+    margin-bottom: var(--space-1);
+  }
+
+  .partners-page-cta-text {
+    color: var(--color-gray);
+    margin-bottom: var(--space-2);
+  }
+
+  .partners-page-cta-link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-red);
+  }
+
+  @media (min-width: 700px) {
+    .partners-page-grid-principal {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .partners-page-grid-secondaire {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

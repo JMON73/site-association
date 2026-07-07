@@ -44,6 +44,7 @@ const galeries = defineCollection({
     photos: z.array(z.string()),
   }),
 });
+
 const partenaires = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/partenaires' }),
   schema: z.object({
@@ -53,6 +54,27 @@ const partenaires = defineCollection({
     niveau: z.enum(['Principal', 'Secondaire']),
   }),
 });
+
+const histoire = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/histoire' }),
+  schema: z.object({
+    annee: z.string(),
+    titre: z.string(),
+    ordre: z.number().default(1),
+    photo: z.string().optional(),
+  }),
+});
+
+const bureau = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/bureau' }),
+  schema: z.object({
+    nom: z.string(),
+    fonction: z.string(),
+    photo: z.string().optional(),
+    ordre: z.number().default(1),
+  }),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z.object({
@@ -61,4 +83,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { actualites, evenements, anciens, galeries, partenaires, pages };
+export const collections = { actualites, evenements, anciens, galeries, partenaires, histoire, bureau, pages };

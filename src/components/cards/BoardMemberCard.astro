@@ -1,0 +1,64 @@
+---
+interface Props {
+  nom: string;
+  fonction: string;
+  photo?: string;
+}
+
+const { nom, fonction, photo } = Astro.props;
+---
+
+<div class="board-card">
+  <div class="board-card-photo-wrap">
+    {photo ? (
+      <img src={photo} alt={nom} class="board-card-photo" />
+    ) : (
+      <div class="board-card-placeholder" aria-hidden="true">{nom.charAt(0)}</div>
+    )}
+  </div>
+  <p class="board-card-nom">{nom}</p>
+  <p class="board-card-fonction">{fonction}</p>
+</div>
+
+<style>
+  .board-card {
+    text-align: center;
+  }
+
+  .board-card-photo-wrap {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto var(--space-2);
+    max-width: 140px;
+    background-color: var(--color-gray-light);
+  }
+
+  .board-card-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .board-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-gray);
+  }
+
+  .board-card-nom {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .board-card-fonction {
+    font-size: 14px;
+    color: var(--color-red);
+    margin-top: 2px;
+  }
+</style>

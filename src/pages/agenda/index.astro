@@ -1,0 +1,190 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import EventCard from '../../components/cards/EventCard.astro';
+import { getCollection } from 'astro:content';
+
+const tousLesEvenements = await getCollection('evenements');
+
+const aVenir = tousLesEvenements
+  .filter((e) => !e.data.termine && e.data.date >= new Date())
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const passes = tousLesEvenements
+  .filter((e) => e.data.termine || e.data.date < new Date())
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const types = ["Match", "Repas", "Voyage", "Assemblée générale", "Action solidaire", "Autre"];
+---
+
+<PageLayout title="Agenda & Événements" description="Retrouvez tous les événements du CARAU : matchs, repas, voyages, assemblées générales et actions solidaires.">
+  <section class="agenda-header">
+    <div class="agenda-header-inner">
+      <h1>Agenda &amp; Événements</h1>
+      <p class="agenda-intro">Toute la vie du club, à venir et passée.</p>
+    </div>
+  </section>
+
+  <section class="agenda-content">
+    <div class="agenda-content-inner">
+
+      <div class="agenda-filters" id="agenda-filters">
+        <button class="filter-badge is-active" data-filter="all">Tous</button>
+        {types.map((type) => (
+          <button class="filter-badge" data-filter={type}>{type}</button>
+        ))}
+      </div>
+
+      <h2 class="agenda-section-title">À venir</h2>
+      {aVenir.length > 0 ? (
+        <div class="agenda-grid" id="agenda-grid-avenir">
+          {aVenir.map((e) => (
+            <div class="agenda-grid-item" data-type={e.data.type}>
+              <EventCard
+                slug={e.id}
+                title={e.data.title}
+                type={e.data.type}
+                date={e.data.date}
+                lieu={e.data.lieu}
+                familles={e.data.familles}
+                image={e.data.image}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="agenda-empty">Aucun événement à venir pour le moment.</p>
+      )}
+
+      {passes.length > 0 && (
+        <>
+          <h2 class="agenda-section-title agenda-section-title-passe">Événements passés</h2>
+          <div class="agenda-grid" id="agenda-grid-passes">
+            {passes.map((e) => (
+              <div class="agenda-grid-item" data-type={e.data.type}>
+                <EventCard
+                  slug={e.id}
+                  title={e.data.title}
+                  type={e.data.type}
+                  date={e.data.date}
+                  lieu={e.data.lieu}
+                  familles={e.data.familles}
+                  image={e.data.image}
+                />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .agenda-header {
+    background-color: var(--color-black);
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    text-align: center;
+  }
+
+  .agenda-header-inner h1 {
+    color: var(--color-white);
+    font-size: 32px;
+  }
+
+  .agenda-intro {
+    color: var(--color-gray);
+    margin-top: var(--space-1);
+  }
+
+  .agenda-content {
+    padding: var(--space-6) var(--space-3) var(--space-8);
+  }
+
+  .agenda-content-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .agenda-filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .filter-badge {
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--color-gray-light);
+    background-color: var(--color-white);
+    color: var(--color-black);
+    transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+  }
+
+  .filter-badge.is-active {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+  }
+
+  .agenda-section-title {
+    font-size: 20px;
+    margin-bottom: var(--space-3);
+  }
+
+  .agenda-section-title-passe {
+    margin-top: var(--space-8);
+    color: var(--color-gray);
+  }
+
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .agenda-empty {
+    color: var(--color-gray);
+  }
+
+  @media (min-width: 700px) {
+    .agenda-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .agenda-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const filterButtons = document.querySelectorAll('.filter-badge');
+  const gridItems = document.querySelectorAll('.agenda-grid-item');
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+
+      filterButtons.forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      gridItems.forEach((item) => {
+        const type = item.getAttribute('data-type');
+        const el = item as HTMLElement;
+        if (filter === 'all' || type === filter) {
+          el.style.display = '';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
