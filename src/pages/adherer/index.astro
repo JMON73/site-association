@@ -1,0 +1,266 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE } from '../../data/site';
+
+const faq = [
+  {
+    question: "Comment se déroule l'adhésion ?",
+    reponse: "Après votre demande via ce formulaire, nous vous recontactons pour finaliser votre adhésion lors de notre prochaine permanence ou événement.",
+  },
+ {
+    question: "Quel est le tarif de la cotisation ?",
+    reponse: `La cotisation annuelle est de ${SITE.tarif}. Elle donne accès à l'ensemble des événements du club.`,
+  },
+  {
+    question: "Faut-il avoir joué au rugby pour adhérer ?",
+    reponse: "Non, l'association est ouverte à tous les amis du club : anciens joueurs, familles, et toute personne partageant nos valeurs.",
+  },
+  {
+    question: "Comment puis-je participer aux événements ?",
+    reponse: "Tous les événements sont annoncés dans notre agenda et nos actualités. La plupart sont ouverts aux familles.",
+  },
+];
+---
+
+<PageLayout title="Adhérer" description="Rejoignez le CARAU, Cercle des Amis du Rugby Albertville Ugine.">
+  <section class="join-header">
+    <div class="join-header-inner">
+      <h1>Rejoignez le CARAU</h1>
+      <p class="join-intro">
+        Que vous ayez porté le maillot ou simplement envie de partager nos valeurs,
+        il y a toujours une place au CARAU.
+      </p>
+    </div>
+  </section>
+<section class="join-photo">
+  <img src="/images/adherer-photo.png" alt="Moment convivial au CARAU" class="join-photo-img" />
+</section>
+  <section class="join-content">
+    <div class="join-content-inner">
+
+      <div class="join-practical">
+        <div class="join-practical-item">
+          <p class="join-practical-label">Cotisation</p>
+          <p class="join-practical-value">{SITE.tarif}</p>
+        </div>
+        <div class="join-practical-item">
+          <p class="join-practical-label">Ce que ça inclut</p>
+          <p class="join-practical-value">Accès à tous les événements organisés par le CARAU</p>
+        </div>
+        <div class="join-practical-item">
+          <p class="join-practical-label">Comment ça marche</p>
+          <p class="join-practical-value">Envoyez votre demande, nous vous recontactons</p>
+        </div>
+      </div>
+
+      <form
+        name="adhesion"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="join-form"
+      >
+        <input type="hidden" name="form-name" value="adhesion" />
+        <p class="join-form-hidden" hidden>
+          <label>
+            Ne pas remplir si vous êtes humain : <input name="bot-field" />
+          </label>
+        </p>
+
+        <div class="join-field">
+          <label for="nom">Nom et prénom</label>
+          <input type="text" id="nom" name="nom" required />
+        </div>
+
+        <div class="join-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="join-field">
+          <label for="telephone">Téléphone</label>
+          <input type="tel" id="telephone" name="telephone" />
+        </div>
+
+        <div class="join-field">
+          <label for="message">Message (facultatif)</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+
+        <button type="submit" class="join-submit-btn">Envoyer ma demande</button>
+      </form>
+
+      <div class="join-faq">
+        <h2 class="join-faq-title">Questions fréquentes</h2>
+        {faq.map((item, index) => (
+          <details class="join-faq-item">
+            <summary class="join-faq-question">{item.question}</summary>
+            <p class="join-faq-reponse">{item.reponse}</p>
+          </details>
+        ))}
+      </div>
+
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .join-header {
+    background-color: var(--color-black);
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    text-align: center;
+  }
+
+  .join-header-inner h1 {
+    color: var(--color-white);
+    font-size: 32px;
+  }
+
+  .join-intro {
+    color: var(--color-gray);
+    margin-top: var(--space-2);
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+.join-photo {
+  width: 100%;
+  height: 260px;
+}
+
+.join-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 700px) {
+  .join-photo {
+    height: 360px;
+  }
+}
+  .join-content {
+    padding: var(--space-8) var(--space-3);
+  }
+
+  .join-content-inner {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .join-practical {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-gray-light);
+  }
+
+  .join-practical-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray);
+    margin-bottom: 4px;
+  }
+
+  .join-practical-value {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .join-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .join-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .join-field label {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .join-field input,
+  .join-field textarea {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    padding: 12px 14px;
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    resize: vertical;
+  }
+
+  .join-field input:focus-visible,
+  .join-field textarea:focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 2px;
+  }
+
+  .join-submit-btn {
+    align-self: flex-start;
+    margin-top: var(--space-1);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 12px 24px;
+    background-color: var(--color-red);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-base);
+  }
+
+  .join-submit-btn:hover {
+    background-color: var(--color-red-dark);
+  }
+
+  .join-faq-title {
+    font-size: 20px;
+    margin-bottom: var(--space-3);
+  }
+
+  .join-faq-item {
+    border-bottom: 1px solid var(--color-gray-light);
+    padding: var(--space-2) 0;
+  }
+
+  .join-faq-question {
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .join-faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .join-faq-question::after {
+    content: "+";
+    float: right;
+    font-weight: 400;
+    color: var(--color-gray);
+  }
+
+  .join-faq-item[open] .join-faq-question::after {
+    content: "−";
+  }
+
+  .join-faq-reponse {
+    font-size: 14px;
+    color: var(--color-gray);
+    margin-top: var(--space-1);
+    padding-right: var(--space-3);
+  }
+</style>

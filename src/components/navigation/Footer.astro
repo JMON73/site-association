@@ -1,4 +1,6 @@
 ---
+import { SITE } from '../../data/site';
+
 const currentYear = new Date().getFullYear();
 
 const footerLinks = [
@@ -29,12 +31,12 @@ const footerLinks = [
     <div class="footer-contact">
       <p class="footer-heading">Nous contacter</p>
       <a href="/contact" class="footer-link">Formulaire de contact</a>
-      <a href="mailto:contact@carau.fr" class="footer-link">contact@carau.fr</a>
+      <a href={`mailto:${SITE.email}`} class="footer-link">{SITE.email}</a>
 
       <p class="footer-heading footer-heading-social">Suivez-nous</p>
       <div class="footer-social">
-        <a href="#" class="footer-social-link" aria-label="Facebook">Facebook</a>
-        <a href="#" class="footer-social-link" aria-label="Instagram">Instagram</a>
+        <a href={SITE.facebook} class="footer-social-link" aria-label="Facebook">Facebook</a>
+        <a href={SITE.instagram} class="footer-social-link" aria-label="Instagram">Instagram</a>
       </div>
     </div>
   </div>

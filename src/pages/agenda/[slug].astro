@@ -47,12 +47,62 @@ const dateFormatee = new Intl.DateTimeFormat('fr-FR', {
         <Content />
       </div>
 
-      {evenement.data.lien_inscription && (
-        <div class="event-detail-cta">
-          <Button href={evenement.data.lien_inscription} size="large">S'inscrire</Button>
-        </div>
-      )}
+ {!evenement.data.termine && evenement.data.date >= new Date() && (
+  <div class="event-participation">
+    <h2 class="event-participation-title">Je participe</h2>
+    <p class="event-participation-subtitle">Confirmez votre présence en quelques secondes.</p>
 
+    <form
+      name="inscription-evenement"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      class="event-detail-form"
+      id="event-participation-form"
+    >
+      <input type="hidden" name="form-name" value="inscription-evenement" />
+      <input type="hidden" name="evenement" value={evenement.data.title} />
+      <p hidden>
+        <label>
+          Ne pas remplir si vous êtes humain : <input name="bot-field" />
+        </label>
+      </p>
+
+      <div class="event-form-field">
+        <label for="nom">Nom et prénom</label>
+        <input type="text" id="nom" name="nom" required />
+      </div>
+
+      <div class="event-form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="event-form-row">
+        <div class="event-form-field">
+          <label for="adultes_adherents">Adultes adhérents</label>
+          <input type="number" id="adultes_adherents" name="adultes_adherents" min="0" value="0" required />
+        </div>
+
+        <div class="event-form-field">
+          <label for="adultes_invites">Adultes invités</label>
+          <input type="number" id="adultes_invites" name="adultes_invites" min="0" value="0" required />
+        </div>
+
+        <div class="event-form-field">
+          <label for="moins_16_ans">- de 16 ans</label>
+          <input type="number" id="moins_16_ans" name="moins_16_ans" min="0" value="0" required />
+        </div>
+      </div>
+
+      <button type="submit" class="event-form-submit">Confirmer ma participation</button>
+    </form>
+
+    <p class="event-participation-success" id="event-participation-success" hidden>
+      ✓ Participation envoyée ! Nous avons bien reçu votre demande.
+    </p>
+  </div>
+)}
       <a href="/agenda" class="event-detail-back">&larr; Retour à l'agenda</a>
     </div>
   </article>
@@ -141,4 +191,125 @@ const dateFormatee = new Intl.DateTimeFormat('fr-FR', {
       font-size: 40px;
     }
   }
+.event-participation {
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background-color: var(--color-gray-light);
+  border-radius: var(--radius-lg);
+}
+
+.event-participation-title {
+  font-size: 22px;
+}
+
+.event-participation-subtitle {
+  font-size: 14px;
+  color: var(--color-gray);
+  margin-top: 4px;
+  margin-bottom: var(--space-3);
+}
+
+.event-detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.event-form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+.event-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.event-form-field label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.event-form-field input {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-white);
+}
+
+.event-form-field input:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 2px;
+}
+
+.event-form-submit {
+  align-self: flex-start;
+  margin-top: var(--space-1);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 24px;
+  background-color: var(--color-red);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.event-form-submit:hover {
+  background-color: var(--color-red-dark);
+}
+
+.event-form-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.event-participation-success {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-red);
+  padding: var(--space-2) 0;
+}
+
+@media (min-width: 600px) {
+  .event-form-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+<script>
+  const form = document.getElementById('event-participation-form') as HTMLFormElement | null;
+  const successMsg = document.getElementById('event-participation-success');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector('.event-form-submit') as HTMLButtonElement;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours...';
+
+    const formData = new FormData(form);
+    const params = new URLSearchParams(formData as any).toString();
+
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params,
+      });
+
+      form.hidden = true;
+      if (successMsg) successMsg.hidden = false;
+    } catch (error) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Confirmer ma participation';
+      alert("Une erreur est survenue, merci de réessayer.");
+    }
+  });
+</script>
 </style>

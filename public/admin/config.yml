@@ -57,7 +57,6 @@ collections:
       - { label: "Image principale", name: "image", widget: "image", required: false }
       - { label: "Résumé court", name: "resume", widget: "text" }
       - { label: "Description complète", name: "body", widget: "markdown" }
-      - { label: "Lien d'inscription", name: "lien_inscription", widget: "string", required: false }
       - { label: "Événement passé", name: "termine", widget: "boolean", default: false }
   - name: "anciens"
     label: "Les Anciens"
@@ -126,3 +125,10 @@ collections:
         fields:
           - { label: "Titre", name: "title", widget: "string" }
           - { label: "Introduction", name: "intro", widget: "text" }
+      - label: "Statuts"
+        name: "statuts"
+        file: "src/content/pages/statuts.md"
+        fields:
+          - { label: "Titre", name: "title", widget: "string" }
+          - { label: "Contenu", name: "body", widget: "markdown" }
+          

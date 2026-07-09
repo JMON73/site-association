@@ -25,11 +25,26 @@ const valeurs = [
   </section>
 
   <nav class="assoc-anchors" aria-label="Navigation dans la page">
-    <a href="#histoire">Notre histoire</a>
-    <a href="#valeurs">Nos valeurs</a>
-    <a href="#bureau">Le bureau</a>
-  </nav>
-
+  <a href="#qui-sommes-nous">Qui sommes-nous</a>
+  <a href="#histoire">Notre histoire</a>
+  <a href="#philosophie">Notre philosophie</a>
+  <a href="#valeurs">Nos valeurs</a>
+  <a href="#passion">Notre passion</a>
+  <a href="#bureau">Le bureau</a>
+  <a href="/association/statuts">Statuts</a>
+</nav>
+<section class="assoc-section" id="qui-sommes-nous">
+  <div class="assoc-section-inner">
+    <p class="assoc-eyebrow">Qui sommes-nous</p>
+    <h2 class="assoc-title">Le Cercle des Amis du Rugby Albertville Ugine</h2>
+    <p class="assoc-text">
+      Le CARAU rassemble anciens joueurs, familles et passionnés de rugby du bassin "Albertville, Ugine", 
+      membres ou supporters de l'ASU, de l'UOA et du SOUA. Nous partageons l'amour du ballon ovale, des valeurs qu'il transmet, et des liens qu'il crée
+      bien au-delà du terrain. Association loi 1901, nous organisons tout au long de l'année
+      des rencontres, repas, voyages et actions qui font vivre cette mémoire commune.
+    </p>
+  </div>
+</section>
   <section class="assoc-section" id="histoire">
     <div class="assoc-section-inner">
       <p class="assoc-eyebrow">Notre histoire</p>
@@ -41,7 +56,23 @@ const valeurs = [
       )}
     </div>
   </section>
-
+<section class="assoc-section" id="philosophie">
+  <div class="assoc-section-inner">
+    <p class="assoc-eyebrow">Notre philosophie</p>
+    <h2 class="assoc-title">Bien plus qu'un club</h2>
+    <p class="assoc-text">
+      Le rugby nous a appris que la force d'une équipe se mesure à sa capacité à se
+      relever ensemble. Cette philosophie dépasse le terrain : elle guide chacune de nos
+      actions, chacun de nos événements, et la manière dont nous accueillons celles et ceux
+      qui nous rejoignent, quel que soit leur parcours. Le CARAU reçoit avec plaisir tout nouvel
+      adhérent qui souhaite partager quelques bons moments. Évidement, les plaisirs égoïstes ne sont
+      pas de mise au CARAU : prendre sans donner n’aurait aucun sens. C’est pourquoi, 
+      nous prévoyons tous les ans de réaliser une opération. Les membres du CARAU sont 
+      des passionnés du rugby, qui ont oublié les vertus de l’entrainement, qu'ils ont troqués pour 
+      celles de la bonne chair.
+    </p>
+  </div>
+</section>
   <section class="assoc-section assoc-section-alt" id="valeurs">
     <div class="assoc-section-inner assoc-section-inner-center">
       <p class="assoc-eyebrow">Nos valeurs</p>
@@ -56,7 +87,24 @@ const valeurs = [
       </div>
     </div>
   </section>
-
+<section class="assoc-section assoc-section-alt" id="passion">
+  <div class="assoc-section-inner assoc-section-inner-center">
+    <p class="assoc-eyebrow">Notre passion</p>
+    <h2 class="assoc-title">Un club, une passion, un plaisir</h2>
+    <p class="assoc-text">
+      Au CARAU, chaque événement est une occasion de se retrouver, de rire et de partager.
+      Le plaisir d'être ensemble reste notre moteur, saison après saison.
+      Partant du principe qu’une passion doit être partagée à plusieurs et parce que le rugby
+      c’est l’histoire d’un ballon avec des copains autour et quand il n’y a plus de ballon, 
+      il reste les copains et c’est quand même essentiel ! Notre objectif est de ne pas rompre 
+      brutalement avec le passé et d’entretenir l'unité de notre sport à travers les générations.
+      Au CARAU nous aimons le Rugby, le nôtre n’a pas l'accent du Sud Ouest, mais l'accent de 
+      nos montagnes, des discussions de comptoir, des apéros entre copains, des causeries 
+      d'avant match, de la troisième mi-temps... Bref, l'accent de l'Ovalie mais avec des 
+      prononciations locales.
+    </p>
+  </div>
+</section>
   <section class="assoc-section" id="bureau">
     <div class="assoc-section-inner assoc-section-inner-center">
       <p class="assoc-eyebrow">Le bureau</p>
@@ -129,8 +177,14 @@ const valeurs = [
   }
 
   .assoc-section-inner-center {
-    text-align: center;
-  }
+  text-align: left;
+}
+
+.assoc-values-grid,
+.assoc-board-grid {
+  margin-left: 0;
+  margin-right: 0;
+}
 
   .assoc-eyebrow {
     font-size: 13px;
@@ -149,7 +203,10 @@ const valeurs = [
   .assoc-empty {
     color: var(--color-gray);
   }
-
+.assoc-text {
+  font-size: 16px;
+  line-height: 1.7;
+}
   .assoc-values-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

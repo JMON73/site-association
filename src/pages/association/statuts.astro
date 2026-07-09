@@ -1,0 +1,74 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getEntry, render } from 'astro:content';
+
+const page = await getEntry('pages', 'statuts');
+const { Content } = await render(page);
+---
+
+<PageLayout title="Statuts de l'association" description="Consultez les statuts officiels du CARAU.">
+  <section class="statuts-header">
+    <div class="statuts-header-inner">
+      <h1>Statuts de l'association</h1>
+      <p class="statuts-intro">Cercle des Amis du Rugby Albertville Ugine</p>
+    </div>
+  </section>
+
+  <section class="statuts-content">
+    <div class="statuts-content-inner">
+      <Content />
+
+      <a href="/association" class="statuts-back">&larr; Retour à l'Association</a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .statuts-header {
+    background-color: var(--color-black);
+    padding: var(--space-8) var(--space-3) var(--space-6);
+    text-align: center;
+  }
+
+  .statuts-header-inner h1 {
+    color: var(--color-white);
+    font-size: 32px;
+  }
+
+  .statuts-intro {
+    color: var(--color-gray);
+    margin-top: var(--space-1);
+  }
+
+  .statuts-content {
+    padding: var(--space-8) var(--space-3);
+  }
+
+  .statuts-content-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .statuts-content-inner :global(h2) {
+    font-size: 20px;
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-2);
+  }
+
+  .statuts-content-inner :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .statuts-content-inner :global(p) {
+    margin-bottom: var(--space-2);
+  }
+
+  .statuts-back {
+    display: inline-block;
+    margin-top: var(--space-5);
+    font-size: 14px;
+    color: var(--color-gray);
+  }
+</style>

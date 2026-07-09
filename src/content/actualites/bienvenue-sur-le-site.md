@@ -1,6 +1,7 @@
 ---
 title: "Bienvenue sur notre nouveau site"
 date: 2026-07-07
+image: "/images/actu-nouveausite.png"
 resume: "Le CARAU lance officiellement son nouveau site internet, pensé pour rassembler tous les anciens, les familles et les partenaires du club."
 ---
 

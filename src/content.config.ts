@@ -21,7 +21,6 @@ const evenements = defineCollection({
     familles: z.boolean().default(true),
     image: z.string().optional(),
     resume: z.string(),
-    lien_inscription: z.string().optional(),
     termine: z.boolean().default(false),
   }),
 });
