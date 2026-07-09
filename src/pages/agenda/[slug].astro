@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import Badge from '../../components/ui/Badge.astro';
 import Button from '../../components/ui/Button.astro';
+import { SITE } from '../../data/site';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -53,20 +54,15 @@ const dateFormatee = new Intl.DateTimeFormat('fr-FR', {
     <p class="event-participation-subtitle">Confirmez votre présence en quelques secondes.</p>
 
     <form
-      name="inscription-evenement"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      class="event-detail-form"
-      id="event-participation-form"
-    >
-      <input type="hidden" name="form-name" value="inscription-evenement" />
-      <input type="hidden" name="evenement" value={evenement.data.title} />
-      <p hidden>
-        <label>
-          Ne pas remplir si vous êtes humain : <input name="bot-field" />
-        </label>
-      </p>
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  class="event-detail-form"
+  id="event-participation-form"
+>
+  <input type="hidden" name="access_key" value={SITE.web3formsKey} />
+  <input type="hidden" name="subject" value={`Inscription : ${evenement.data.title}`} />
+  <input type="hidden" name="evenement" value={evenement.data.title} />
+  <input type="checkbox" name="botcheck" style="display: none;" />
 
       <div class="event-form-field">
         <label for="nom">Nom et prénom</label>

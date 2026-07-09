@@ -54,19 +54,14 @@ const faq = [
       </div>
 
       <form
-        name="adhesion"
-        method="POST"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-        action="/merci/"
-        class="join-form"
-      >
-        <input type="hidden" name="form-name" value="adhesion" />
-        <p class="join-form-hidden" hidden>
-          <label>
-            Ne pas remplir si vous êtes humain : <input name="bot-field" />
-          </label>
-        </p>
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  class="join-form"
+>
+  <input type="hidden" name="access_key" value={SITE.web3formsKey} />
+  <input type="hidden" name="subject" value="Nouvelle demande d'adhésion CARAU" />
+  <input type="hidden" name="redirect" value="https://carau.netlify.app/merci/" />
+  <input type="checkbox" name="botcheck" style="display: none;" />
 
         <div class="join-field">
           <label for="nom">Nom et prénom</label>

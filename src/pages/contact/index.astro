@@ -29,19 +29,14 @@ import { SITE } from '../../data/site';
       </div>
 
       <form
-        name="contact"
-        method="POST"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-        action="/merci/"
+         action="https://api.web3forms.com/submit"
+         method="POST"
         class="contact-form"
-      >
-        <input type="hidden" name="form-name" value="contact" />
-        <p class="contact-form-hidden" hidden>
-          <label>
-            Ne pas remplir si vous êtes humain : <input name="bot-field" />
-          </label>
-        </p>
+        >
+        <input type="hidden" name="access_key" value={SITE.web3formsKey} />
+        <input type="hidden" name="subject" value="Nouveau message via le site CARAU" />
+        <input type="hidden" name="redirect" value="https://carau.netlify.app/merci/" />
+        <input type="checkbox" name="botcheck" style="display: none;" />
 
         <div class="contact-field">
           <label for="nom">Nom</label>
