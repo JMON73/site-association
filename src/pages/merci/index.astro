@@ -1,0 +1,36 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Merci">
+  <section class="merci">
+    <div class="merci-inner">
+      <h1>Merci !</h1>
+      <p class="merci-text">Votre demande a bien été envoyée. Nous vous recontacterons rapidement.</p>
+      <a href="/" class="merci-link">Retour à l'accueil</a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .merci {
+    padding: var(--space-12) var(--space-3);
+    text-align: center;
+  }
+
+  .merci-inner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .merci-text {
+    color: var(--color-gray);
+    margin: var(--space-2) 0 var(--space-4);
+  }
+
+  .merci-link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-red);
+  }
+</style>
