@@ -94,7 +94,7 @@ collections:
         name: "niveau"
         widget: "select"
         options: ["Principal", "Secondaire"]
- - name: "histoire"
+  - name: "histoire"
     label: "Notre histoire (étapes)"
     folder: "src/content/histoire"
     create: true
