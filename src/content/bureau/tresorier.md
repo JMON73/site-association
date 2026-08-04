@@ -1,6 +1,7 @@
 ---
 nom: "Jean-Marie Conca"
 fonction: "Trésorier"
-photo: "/images/bureau-tresorier.avif"
+photo: "../../assets/images/bureau-tresorier.avif"
+groupe: "Conseil d'administration"
 ordre: 2
 ---

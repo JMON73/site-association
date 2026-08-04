@@ -3,23 +3,23 @@ import { glob } from 'astro/loaders';
 
 const actualites = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/actualites' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
     resume: z.string(),
-    image: z.string().optional(),
+    image: image().optional(),
   }),
 });
 
 const evenements = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/evenements' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
-    type: z.enum(['Match', 'Repas', 'Voyage', 'Assemblée générale', 'Action solidaire', 'Autre']),
+    type: z.enum(['Match/Voyage', 'Repas', 'Assemblée générale', 'Action solidaire', 'Autre']),
     date: z.date(),
     lieu: z.string().optional(),
     familles: z.boolean().default(true),
-    image: z.string().optional(),
+    image: image().optional(),
     resume: z.string(),
     termine: z.boolean().default(false),
   }),
@@ -27,28 +27,29 @@ const evenements = defineCollection({
 
 const anciens = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/anciens' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     nom: z.string(),
-    photo: z.string().optional(),
-    periode: z.string(),
+    photo: image().optional(),
+    periode: z.string().optional(),
     poste: z.string().optional(),
   }),
 });
 
 const galeries = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/galeries' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
-    photos: z.array(z.string()),
+    ordre: z.number().default(1),
+    photos: z.array(image()),
   }),
 });
 
 const partenaires = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/partenaires' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     nom: z.string(),
-    logo: z.string(),
+    logo: image(),
     site: z.string().optional(),
     niveau: z.enum(['Principal', 'Secondaire']),
   }),
@@ -56,20 +57,21 @@ const partenaires = defineCollection({
 
 const histoire = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/histoire' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     annee: z.string(),
     titre: z.string(),
     ordre: z.number().default(1),
-    photo: z.string().optional(),
+    photo: image().optional(),
   }),
 });
 
 const bureau = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/bureau' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     nom: z.string(),
     fonction: z.string(),
-    photo: z.string().optional(),
+    groupe: z.enum(['Bureau', "Conseil d'administration"]).default('Bureau'),
+    photo: image().optional(),
     ordre: z.number().default(1),
   }),
 });

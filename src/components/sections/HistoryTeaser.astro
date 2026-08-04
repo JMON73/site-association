@@ -1,17 +1,20 @@
 ---
 import Button from '../ui/Button.astro';
 
+import { Image } from 'astro:assets';
+import defaultImage from '../../assets/images/histoire-placeholder.jpg';
+
 interface Props {
-  image?: string;
+  image?: any;
 }
 
-const { image = "/images/histoire-placeholder.jpg" } = Astro.props;
+const { image = defaultImage } = Astro.props;
 ---
 
 <section class="history-teaser">
   <div class="history-teaser-inner">
     <div class="history-teaser-image-wrap">
-      <img src={image} alt="Photo d'archive du club" class="history-teaser-image" />
+      <Image src={image} alt="Photo d'archive du club" class="history-teaser-image" width={800} height={500} />
     </div>
 
     <div class="history-teaser-content">

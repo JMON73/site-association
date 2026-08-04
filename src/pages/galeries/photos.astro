@@ -1,22 +1,26 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import { Image, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
 const albums = await getCollection('galeries');
-const triees = albums.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-// Liste globale à plat, avec l'index de chaque photo pour la navigation lightbox
+const triees = albums.sort((a, b) => a.data.ordre - b.data.ordre);
 let indexGlobal = 0;
-const albumsAvecIndex = triees.map((album) => {
-  const photosAvecIndex = album.data.photos.map((photo) => {
-    const item = { src: photo, index: indexGlobal };
-    indexGlobal++;
-    return item;
-  });
-  return { ...album, photosAvecIndex };
-});
+const albumsAvecIndex = await Promise.all(
+  triees.map(async (album) => {
+    const photosAvecIndex = await Promise.all(
+      album.data.photos.map(async (photo) => {
+        const optimized = await getImage({ src: photo, width: 800 });
+        const item = { original: photo, url: optimized.src, index: indexGlobal };
+        indexGlobal++;
+        return item;
+      })
+    );
+    return { ...album, photosAvecIndex };
+  })
+);
 
-const toutesLesPhotos = albumsAvecIndex.flatMap((a) => a.photosAvecIndex.map((p) => p.src));
+const toutesLesPhotos = albumsAvecIndex.flatMap((a) => a.photosAvecIndex.map((p) => p.url));
 ---
 
 <PageLayout title="Galerie photos" description="Toutes les photos du CARAU, événement par événement.">
@@ -39,8 +43,8 @@ const toutesLesPhotos = albumsAvecIndex.flatMap((a) => a.photosAvecIndex.map((p)
                   class="gallery-thumb"
                   data-index={photo.index}
                   aria-label={`Voir la photo en grand : ${album.data.title}`}
-                >
-                  <img src={photo.src} alt="" loading="lazy" />
+            >
+                  <Image src={photo.original} alt="" width={300} height={300} />
                 </button>
               ))}
             </div>

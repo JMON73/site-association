@@ -1,5 +1,5 @@
 ---
 nom: "Crédit Mutuel"
-logo: "/images/logo-creditmutuel.png"
+logo: "../../assets/images/logo-creditmutuel.png"
 niveau: "Principal"
 ---

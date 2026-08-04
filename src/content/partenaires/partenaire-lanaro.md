@@ -1,5 +1,5 @@
 ---
 nom: "Lanaro"
-logo: "/images/logo-lanaro.png"
+logo: "../../assets/images/logo-lanaro.png"
 niveau: "Principal"
 ---

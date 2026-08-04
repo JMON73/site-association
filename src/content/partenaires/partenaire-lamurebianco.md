@@ -1,5 +1,5 @@
 ---
 nom: "Charvet La mure Bianco"
-logo: "/images/logo-lamure.png"
+logo: "../../assets/images/logo-lamure.png"
 niveau: "Principal"
 ---

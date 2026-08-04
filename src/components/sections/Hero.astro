@@ -1,5 +1,6 @@
 ---
 import Button from '../ui/Button.astro';
+import { Image } from 'astro:assets';
 
 interface Props {
   title: string;
@@ -19,7 +20,7 @@ const {
 ---
 
 <section class="hero">
-  <img src={image} alt="" class="hero-image" />
+  <Image src={image} alt="" class="hero-image" width={1600} height={900} />
   <div class="hero-overlay"></div>
 
   <div class="hero-content">

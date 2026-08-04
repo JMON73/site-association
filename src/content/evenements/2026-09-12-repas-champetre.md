@@ -6,7 +6,7 @@ lieu: "salle de réception au stade Municipal d’Ugine"
 familles: true
 resume: "Le traditionnel repas de rentrée du CARAU, ouvert à tous les membres et leurs familles."
 termine: false
-image: "/images/evenement-repaschampetre.png"
+image: "../../assets/images/evenement-repaschampetre.png"
 ---
 
 Venez nombreux pour ce moment convivial qui marque le début de la nouvelle saison. 
