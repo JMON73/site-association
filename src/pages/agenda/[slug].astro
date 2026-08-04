@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import Badge from '../../components/ui/Badge.astro';
 import Button from '../../components/ui/Button.astro';
 import { SITE } from '../../data/site';
+import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -28,8 +29,8 @@ const dateFormatee = new Intl.DateTimeFormat('fr-FR', {
   <article class="event-detail">
     <div class="event-detail-header">
       {evenement.data.image ? (
-        <img src={evenement.data.image} alt="" class="event-detail-image" />
-      ) : (
+    <Image src={evenement.data.image} alt="" class="event-detail-image" width={1200} height={600} />
+) : (
         <div class="event-detail-placeholder" aria-hidden="true">{evenement.data.type}</div>
       )}
     </div>

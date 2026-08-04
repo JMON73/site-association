@@ -1,5 +1,5 @@
 ---
 nom: "Carrefour Market Ugine"
-logo: "/images/logo-carrefour.webp"
+logo: "../../assets/images/logo-carrefour.webp"
 niveau: "Principal"
 ---

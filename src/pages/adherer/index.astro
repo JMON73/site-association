@@ -1,6 +1,8 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
 import { SITE } from '../../data/site';
+import adherPhoto from '../../assets/images/adherer-photo.png';
 
 const faq = [
   {
@@ -33,7 +35,7 @@ const faq = [
     </div>
   </section>
 <section class="join-photo">
-  <img src="/images/adherer-photo.png" alt="Moment convivial au CARAU" class="join-photo-img" />
+  <Image src={adherPhoto} alt="Moment convivial au CARAU" class="join-photo-img" width={1200} height={600} />
 </section>
   <section class="join-content">
     <div class="join-content-inner">

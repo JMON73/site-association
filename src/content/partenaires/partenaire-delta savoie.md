@@ -1,5 +1,5 @@
 ---
 nom: "Delta Savoie"
-logo: "/images/logo-deltasavoie.jpg"
+logo: "../../assets/images/logo-deltasavoie.jpg"
 niveau: "Principal"
 ---

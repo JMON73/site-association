@@ -1,6 +1,6 @@
 ---
 nom: Claude Fusier
 fonction: Vice président
-photo: /images/bureau-claudefusier.png
+photo: ../../assets/images/bureau-claudefusier.png
 ordre: 2
 ---

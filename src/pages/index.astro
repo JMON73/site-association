@@ -9,10 +9,15 @@ import GalleryPreview from '../components/sections/GalleryPreview.astro';
 import Stats from '../components/sections/Stats.astro';
 import PartnersBand from '../components/sections/PartnersBand.astro';
 import CtaFinal from '../components/sections/CtaFinal.astro';
+import heroImage from '../assets/images/hero-placeholder.jpg';
 ---
 
 <PageLayout title="Accueil">
-  <Hero title="Le Cercle des Amis du Rugby Albertville Ugine" subtitle="Un cercle né de la passion du rugby, qui rassemble anciens joueurs, familles et amis depuis toujours." image="/images/hero-placeholder.jpg" />
+  <Hero
+    title="Le Cercle des Amis du Rugby Albertville Ugine"
+    subtitle="Un cercle né de la passion du rugby, qui rassemble anciens joueurs, familles et amis depuis toujours."
+    image={heroImage}
+  />
 
   <NextEvent />
   <ValuesCarau />

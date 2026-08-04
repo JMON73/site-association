@@ -3,9 +3,12 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import Timeline from '../../components/timeline/Timeline.astro';
 import BoardMemberCard from '../../components/cards/BoardMemberCard.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 
 const etapesHistoire = (await getCollection('histoire')).sort((a, b) => a.data.ordre - b.data.ordre);
-const membresBureau = (await getCollection('bureau')).sort((a, b) => a.data.ordre - b.data.ordre);
+const tousMembres = (await getCollection('bureau')).sort((a, b) => a.data.ordre - b.data.ordre);
+const membresBureau = tousMembres.filter((m) => m.data.groupe === 'Bureau');
+const membresCA = tousMembres.filter((m) => m.data.groupe === "Conseil d'administration");
 
 const valeurs = [
   { lettre: "C", mot: "Convivialité" },
@@ -31,7 +34,7 @@ const valeurs = [
   <a href="#valeurs">Nos valeurs</a>
   <a href="#passion">Notre passion</a>
   <a href="#bureau">Le bureau</a>
-  <a href="/association/statuts">Statuts</a>
+  <a href="#ca">Le CA</a>
 </nav>
 <section class="assoc-section" id="qui-sommes-nous">
   <div class="assoc-section-inner">
@@ -106,20 +109,36 @@ const valeurs = [
   </div>
 </section>
   <section class="assoc-section" id="bureau">
-    <div class="assoc-section-inner assoc-section-inner-center">
-      <p class="assoc-eyebrow">Le bureau</p>
-      <h2 class="assoc-title">Ceux qui font vivre le club</h2>
-      {membresBureau.length > 0 ? (
-        <div class="assoc-board-grid">
-          {membresBureau.map((membre) => (
-            <BoardMemberCard nom={membre.data.nom} fonction={membre.data.fonction} photo={membre.data.photo} />
-          ))}
-        </div>
-      ) : (
-        <p class="assoc-empty">La composition du bureau sera bientôt disponible ici.</p>
-      )}
-    </div>
-  </section>
+  <div class="assoc-section-inner assoc-section-inner-center">
+    <p class="assoc-eyebrow">Le bureau</p>
+    <h2 class="assoc-title">Ceux qui font vivre le club</h2>
+    {membresBureau.length > 0 ? (
+      <div class="assoc-board-grid">
+        {membresBureau.map((membre) => (
+          <BoardMemberCard nom={membre.data.nom} fonction={membre.data.fonction} photo={membre.data.photo} />
+        ))}
+      </div>
+    ) : (
+      <p class="assoc-empty">La composition du bureau sera bientôt disponible ici.</p>
+    )}
+  </div>
+</section>
+
+<section class="assoc-section assoc-section-alt" id="ca">
+  <div class="assoc-section-inner assoc-section-inner-center">
+    <p class="assoc-eyebrow">Conseil d'administration</p>
+    <h2 class="assoc-title">Le CA du CARAU</h2>
+    {membresCA.length > 0 ? (
+      <div class="assoc-board-grid">
+        {membresCA.map((membre) => (
+          <BoardMemberCard nom={membre.data.nom} fonction={membre.data.fonction} photo={membre.data.photo} />
+        ))}
+      </div>
+    ) : (
+      <p class="assoc-empty">La composition du conseil d'administration sera bientôt disponible ici.</p>
+    )}
+  </div>
+</section>
 </PageLayout>
 
 <style>

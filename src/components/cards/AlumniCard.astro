@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Props {
   nom: string;
   photo?: string;
-  periode: string;
+  periode?: string;
   poste?: string;
 }
 
@@ -12,7 +14,7 @@ const { nom, photo, periode, poste } = Astro.props;
 <div class="alumni-card">
   <div class="alumni-card-photo-wrap">
     {photo ? (
-      <img src={photo} alt={nom} class="alumni-card-photo" />
+  <Image src={photo} alt={nom} class="alumni-card-photo" width={300} height={300} />
     ) : (
       <div class="alumni-card-placeholder" aria-hidden="true">
         {nom.charAt(0)}
@@ -20,8 +22,8 @@ const { nom, photo, periode, poste } = Astro.props;
     )}
   </div>
   <p class="alumni-card-nom">{nom}</p>
-  <p class="alumni-card-periode">{periode}</p>
-  {poste && <p class="alumni-card-poste">{poste}</p>}
+    {periode && <p class="alumni-card-periode">{periode}</p>}
+    {poste && <p class="alumni-card-poste">{poste}</p>}
 </div>
 
 <style>

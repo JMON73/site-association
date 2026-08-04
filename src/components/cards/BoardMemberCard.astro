@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Props {
   nom: string;
   fonction: string;
@@ -11,7 +13,7 @@ const { nom, fonction, photo } = Astro.props;
 <div class="board-card">
   <div class="board-card-photo-wrap">
     {photo ? (
-      <img src={photo} alt={nom} class="board-card-photo" />
+  <Image src={photo} alt={nom} class="board-card-photo" width={200} height={200} />
     ) : (
       <div class="board-card-placeholder" aria-hidden="true">{nom.charAt(0)}</div>
     )}

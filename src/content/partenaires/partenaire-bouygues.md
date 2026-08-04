@@ -1,5 +1,5 @@
 ---
 nom: "Bouygues Energies et Services"
-logo: "/images/logo-bouygues.png"
+logo: "../../assets/images/logo-bouygues.png"
 niveau: "Principal"
 ---

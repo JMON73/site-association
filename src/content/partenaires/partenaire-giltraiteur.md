@@ -1,5 +1,5 @@
 ---
 nom: "Gil traiteur"
-logo: "/images/logo-giltraiteur.jpg"
+logo: "../../assets/images/logo-giltraiteur.jpg"
 niveau: "Principal"
 ---

@@ -1,5 +1,5 @@
 ---
 nom: "Martoia TP"
-logo: "/images/logo-martoia.png"
+logo: "../../assets/images/logo-martoia.png"
 niveau: "Principal"
 ---

@@ -1,5 +1,5 @@
 ---
 nom: "Optique du Charvin"
-logo: "/images/logo-optiquecharvin.png"
+logo: "../../assets/images/logo-optiquecharvin.png"
 niveau: "Principal"
 ---

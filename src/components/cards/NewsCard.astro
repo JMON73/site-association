@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Props {
   slug: string;
   title: string;
@@ -19,7 +21,7 @@ const dateFormatee = new Intl.DateTimeFormat('fr-FR', {
 <a href={`/actualites/${slug}`} class="news-card">
   <div class="news-card-image-wrap">
     {image ? (
-      <img src={image} alt="" class="news-card-image" loading="lazy" />
+      <Image src={image} alt="" class="news-card-image" width={400} height={250} />
     ) : (
       <div class="news-card-placeholder" aria-hidden="true">CARAU</div>
     )}

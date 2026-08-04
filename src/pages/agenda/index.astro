@@ -13,10 +13,10 @@ const passes = tousLesEvenements
   .filter((e) => e.data.termine || e.data.date < new Date())
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const types = ["Match", "Repas", "Voyage", "Assemblée générale", "Action solidaire", "Autre"];
+const types = ["Match/Voyages", "Repas", "Assemblée générale", "Action solidaire", "Autre"];
 ---
 
-<PageLayout title="Agenda & Événements" description="Retrouvez tous les événements du CARAU : matchs, repas, voyages, assemblées générales et actions solidaires.">
+<PageLayout title="Agenda & Événements" description="Retrouvez tous les événements du CARAU : matchs, repas, assemblées générales et actions solidaires.">
   <section class="agenda-header">
     <div class="agenda-header-inner">
       <h1>Agenda &amp; Événements</h1>

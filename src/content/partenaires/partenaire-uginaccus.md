@@ -1,5 +1,5 @@
 ---
 nom: "UginAccus"
-logo: "/images/logo-uginaccus.png"
+logo: "../../assets/images/logo-uginaccus.png"
 niveau: "Principal"
 ---
