@@ -1,12 +1,13 @@
 ---
-title: "Repas champêtre"
-type: "Repas"
+title: Repas champêtre
+type: Repas
 date: 2026-09-12
-lieu: "salle de réception au stade Municipal d’Ugine"
+lieu: salle de réception au stade Municipal d’Ugine
 familles: true
-resume: "Le traditionnel repas de rentrée du CARAU, ouvert à tous les membres et leurs familles."
-termine: false
-image: "../../assets/images/evenement-repaschampetre.png"
+image: ../../assets/images/evenement-repaschampetre.png
+resume: Le traditionnel repas de rentrée du CARAU, ouvert à tous les membres et
+  leurs familles.
+termine: true
 ---
 
 Venez nombreux pour ce moment convivial qui marque le début de la nouvelle saison. 
